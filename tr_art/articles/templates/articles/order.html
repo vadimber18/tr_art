@@ -1,0 +1,14 @@
+{% extends 'articles/base.html' %}
+{% block content %}
+<li> {{ article.source_data }} </li>
+<div> Статус заказа: {{ article.status }} </div>
+<div> {{ article.reg_date }} </div>
+<form method="POST">
+    {% csrf_token %} {{ form.as_p }}
+{% if article.status == 0 %}
+    <button type="submit">Взять заказ!</button>
+{% elif article.status == 1%}
+    <button type="submit">Сдать заказ!</button>
+{% endif %}
+</form>
+{% endblock %}

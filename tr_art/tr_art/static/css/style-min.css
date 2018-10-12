@@ -1,0 +1,32 @@
+#art {
+    top:80px;
+    height:100%;
+    left: 10px;
+    padding-bottom: 40px;
+    position: fixed;
+    width: inherit;
+}
+
+.navbar-brand h1 {
+   font-family: 'Lobster', cursive;
+   font-size: 28pt;
+   color: black;
+   margin: 0;
+}
+
+.navbar-brand h2 {
+   display: none;
+}
+
+.navbar-brand {
+   padding: 0;
+   padding-left: 15px;
+   padding-top: 5px;
+}
+.navbar-default .navbar-nav>li>a {
+  color: black;
+}
+
+.navbar-default .navbar-nav>li>b {
+  color: black;
+}

@@ -1,0 +1,25 @@
+{% extends 'articles/base.html' %}
+{% block content %}
+
+{% for article in my_orders %}
+<div><b> Preview: {{ article.source_data|slice:":15" }} </b></div>
+<div> Статус: {{ article.status }} </div>
+<div> Дата создания: {{ article.reg_date }} </div>
+
+{% if article.status == 1 %}
+<div> Исполнитель: {{ article.translator.user.username }} </div>
+<div> Deadline: {{ article.deadline_date }} </div>
+{% endif %}
+
+{% if article.status == 2 %}
+<div> Translated Preview: {{ article.translated_data|slice:":10" }} </div>
+<div> Дата сдачи: {{ article.done_date }} </div>
+<div> Ссылка на скачивание текста </div>
+{% endif %}
+
+{% if user.profile.role == 'translator' and article.status != 2 %}
+<li><a href="{% url 'orderview' article.id %}"> Подробнее </a></li>
+{% endif %}
+
+{% endfor %}
+{% endblock %}
