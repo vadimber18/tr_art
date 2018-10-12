@@ -1,11 +1,11 @@
 import datetime
 
 from django.shortcuts import render, render_to_response
-from django.views.generic import FormView, ListView, DetailView
+from django.views.generic import FormView, ListView, DetailView, View
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django import forms
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 
 from rest_framework import viewsets, generics, exceptions, status
 from rest_framework.views import APIView
@@ -63,7 +63,7 @@ class FreshOrdersView(FormView):
     def get(self, request, *args, **kwargs):
         form = FreshOrdersForm(request.GET)
         if form.is_valid():
-            top = form.cleaned_data['category']
+            top = form.cleaned_data['topic_id']
             topic_id = ArtCategory.objects.filter(id__in=top)
             if len(topic_id):
                 articles = Article.objects.filter(status=0).filter(topic_id__in=topic_id).order_by('-reg_date')
@@ -93,7 +93,7 @@ class OrderView(FormView): #only for translator (or not?)
             form = AcceptOrderForm(request.POST)
             if form.is_valid():
                 deadline = form.cleaned_data['deadline']
-                order_accept(article, deadline)
+                order_accept(article, deadline,request.user)
                 return HttpResponseRedirect('/acceptedorders/')
         elif article.status == 1: #we dont check article.translator due POST
             form = FinishOrderForm(request.POST)
@@ -102,6 +102,14 @@ class OrderView(FormView): #only for translator (or not?)
                 order_finish(article, target_text)
                 return HttpResponseRedirect('/acceptedorders/')
         return render(request, self.template_name, {'form': form, 'article': article})
+
+class OrderTargetTextView(View):
+    """ Get full target_text for requester, who created request """
+    def get(self, request, *args, **kwargs):
+        article = Article.objects.get(id=kwargs['pk'])
+        if article.status == 2 and article.requester == request.user.profile:
+            return HttpResponse(article.target_text)
+        return HttpResponseRedirect('/login/')
 
 class AcceptedOrdersView(ListView):
     """ Displays all accepted by current translator orders """

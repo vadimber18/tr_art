@@ -24,6 +24,8 @@ urlpatterns = [
     re_path(r'^freshorders/$', user_passes_test(translator_test,login_url='/login')(FreshOrdersView.as_view()), name='freshordersview'),
     re_path(r'^acceptedorders/$', user_passes_test(translator_test,login_url='/login')(AcceptedOrdersView.as_view()), name='acceptedordersview'),
     re_path(r'^order/(?P<pk>\d+)/$', user_passes_test(translator_test,login_url='/login')(OrderView.as_view()), name='orderview'),
+    re_path(r'^order/(?P<pk>\d+)/target_text/$', user_passes_test(requester_test,login_url='/login')(OrderTargetTextView.as_view()), 
+            name='ordertargettext'),
     #api
     re_path(r'^auth/login/$', LoginApiView.as_view(), name='knox_login'),
     re_path(r'^auth/logout/$', knox_views.LogoutView.as_view(), name='knox_logout'),

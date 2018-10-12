@@ -5,7 +5,7 @@
     <button type="submit">Применить фильтр</button>
 </form>
 {% for article in articles %}
-<div><b> Preview: {{ article.source_data }} </b></divi>
+<div><b> Preview: {{ article.source_text }} </b></divi>
 <div> Статус: {{ article.status }} </div>
 <div> Дата создания: {{ article.reg_date }} </div>
 <li><a href="{% url 'orderview' article.id %}"> Подробнее </a></li>

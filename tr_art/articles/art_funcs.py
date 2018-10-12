@@ -11,7 +11,7 @@ from articles.models import ArtLanguage, ArtCategory, Article, UserProfile
 def create_article_from_form(form, user):
     source_text = form.cleaned_data['source_text']
     top = form.cleaned_data['topic_id']
-    topic_id = ArtCategory.objects.filter(id__in=cat)
+    topic_id = ArtCategory.objects.filter(id__in=top)
     source_language = form.cleaned_data['source_language']
     source_language = ArtLanguage.objects.get(id=source_language)
     tar_lang = form.cleaned_data['target_language']
@@ -40,9 +40,9 @@ def get_register_cdata(form):
         form.cleaned_data['password'], role, redirect_to
 
 
-def order_accept(article, deadline):
+def order_accept(article, deadline, user):
     article.status = 1
-    article.translator = request.user.profile
+    article.translator = user.profile
     article.deadline = deadline
     article.save()
 

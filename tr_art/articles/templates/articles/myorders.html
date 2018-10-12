@@ -2,19 +2,21 @@
 {% block content %}
 
 {% for article in my_orders %}
-<div><b> Preview: {{ article.source_data|slice:":15" }} </b></div>
+<div><b> Preview: {{ article.source_text|slice:":15" }} </b></div>
 <div> Статус: {{ article.status }} </div>
 <div> Дата создания: {{ article.reg_date }} </div>
 
 {% if article.status == 1 %}
 <div> Исполнитель: {{ article.translator.user.username }} </div>
-<div> Deadline: {{ article.deadline_date }} </div>
+<div> Deadline: {{ article.deadline }} </div>
 {% endif %}
 
 {% if article.status == 2 %}
-<div> Translated Preview: {{ article.translated_data|slice:":10" }} </div>
+<div> Translated Preview: {{ article.target_text|slice:":10" }} </div>
 <div> Дата сдачи: {{ article.done_date }} </div>
-<div> Ссылка на скачивание текста </div>
+    {% if user.profile.role == 'requester' %}
+<div><a href="{% url 'ordertargettext' article.id %}"> Скачать текст! </a> </div>
+    {% endif %}
 {% endif %}
 
 {% if user.profile.role == 'translator' and article.status != 2 %}
