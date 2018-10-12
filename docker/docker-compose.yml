@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  artweb:
+    container_name: art_web1
+    restart: always
+    build: ./web
+    command: uwsgi --ini /app/tr_art/tr_art/art_uwsgi_docker.ini
+    ports:
+      - "8000:8000"
+    volumes:
+      - /home/vadim/Documents/DJANGO_TRANSLATE/tr_art/tr_art:/app/tr_art
+    links:
+      - artdb:dbf
+    depends_on:
+      - artdb
+
+  artdb:
+    container_name: art_psql1
+    build: ./postgres
+    restart: always
+    expose:
+      - "5432"
+    environment:
+      LC_ALL: C.UTF-8
+      POSTGRES_USER: vadim
+      POSTGRES_PASSWORD: 1
+      POSTGRES_DB: tr_art
+    volumes:
+      - art_pgdata:/var/lib/postgresql/data
+
+  artnginx:
+    container_name: art_nginx1
+    build: ./nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - /home/vadim/Documents/DJANGO_TRANSLATE/tr_art/tr_art:/app/tr_art
+    depends_on:
+        - artweb
+volumes:
+  art_pgdata:
