@@ -242,7 +242,7 @@ class UserListApiView(APIView):
         return Response(serializer.data)
 
 class UserApiView(APIView):
-    """ User by id """
+    """ UserProfile by id """
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 

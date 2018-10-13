@@ -148,14 +148,14 @@ class ArticleAcceptSerializer(serializers.ModelSerializer):
 
     def validate_status(self, value):
         if value != 0:
-            raise serializers.ValidationError("You can only finish request with status=1")
+            raise serializers.ValidationError("You can only accept request with status=0")
         return value
 
     def update(self, instance, validated_data):
         instance.translator =  validated_data.pop('translator')
         instance.deadline = validated_data.pop('deadline')
         if instance.status != 0:
-            raise serializers.ValidationError("You can only finish request with status = 1")
+            raise serializers.ValidationError("You can only accept request with status = 0")
         instance.status = 1
         instance.save()
         return instance
