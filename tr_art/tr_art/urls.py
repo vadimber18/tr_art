@@ -3,8 +3,8 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import path, re_path
 from django.conf.urls import include
+from django.views.generic import RedirectView
 
-from rest_framework import routers
 
 from articles.views import *
 from articles.art_funcs import requester_test, translator_test
@@ -14,6 +14,7 @@ from knox import views as knox_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    re_path('^$', RedirectView.as_view(url='/login/')),
     re_path('^login/$', auth_views.login, {'template_name':
         'articles/login.html'}, name='loginview'),
     re_path(r'^logout/$', auth_views.logout, {'template_name':
