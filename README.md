@@ -1,16 +1,16 @@
-Установка и запуск через docker:\
+Установка и запуск через docker:
 
 Убедиться, что установлены docker и docker-compose\
 Поменять абсолютные пути на свои в следующих местах:\
 docker-compose.yml строка 12 у меня /home/tr_art - папка с репой \
 docker-compose.yml строка 39\
 переименовать settings_docker.py в settings.py\
-docker-compose up\
+docker-compose up
 
 Чтобы nginx раздавал статику, из под контейнера web (docker exec -ti art_web1 $SHELL):\
-./manage.py collectstatic\
+./manage.py collectstatic
 
-Бд можно восстановить из готовой (https://www.dropbox.com/s/88rk7bjglc745sv/db.sql?dl=0) - в ней есть несколько категорий и языков (рекомендуемый вариант) или не восстанавливать, тогда категории и языки придется создавать руками.\
+Бд можно восстановить из готовой (https://www.dropbox.com/s/88rk7bjglc745sv/db.sql?dl=0) - в ней есть несколько категорий и языков (рекомендуемый вариант) или не восстанавливать, тогда категории и языки придется создавать руками.
 
 Восстановление (нужно добавить строку COPY db.sql /db.sql в docker/postgres/Dockerfile, ну и поместить сам файл дампа в папку):\
 Из под контейнера psql (docker exec -ti art_psql1 $SHELL):\
@@ -36,7 +36,7 @@ pip install -r requirements.txt (лежит в docker/web)\
 create database tr_art owner %username%;\
 grant all privileges on database tr_art to %username%;\
 Убедиться, что %username% совпадает с юзером базы в settings.py
-Далее восстановить из дампа или сделать migrate. Делается все также, как в случае с докером.\
+Далее восстановить из дампа или сделать migrate. Делается все также, как в случае с докером.
 
 Заполнить базу категориями и языками (пример):\
 ./manage.py shell\
@@ -46,4 +46,4 @@ langs = ["Русский", "Английский", "Татарский", "Ивр
 for cat in cats:\
     ArtCategory.objects.create(name=cat)\
 for lang in langs:\
-    ArtLanguage.objects.create(name=lang)\
+    ArtLanguage.objects.create(name=lang)
