@@ -9,7 +9,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - /home/vadim/Documents/DJANGO_TRANSLATE/tr_art/tr_art:/app/tr_art
+      - /home/tr_art/tr_art:/app/tr_art
     links:
       - artdb:dbf
     depends_on:
@@ -36,7 +36,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - /home/vadim/Documents/DJANGO_TRANSLATE/tr_art/tr_art:/app/tr_art
+      - /home/tr_art/tr_art:/app/tr_art
     depends_on:
         - artweb
 volumes:
