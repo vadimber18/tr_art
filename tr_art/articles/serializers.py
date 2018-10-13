@@ -28,7 +28,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
     email = serializers.CharField(source='get_email')
     first_name = serializers.CharField(required=False, source='get_first_name')
     last_name = serializers.CharField(required=False, source='get_last_name')
-    #role = serializers.CharField(write_only=True)
 
     class Meta:
         model = UserProfile
@@ -49,7 +48,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class ArticleSerializer(serializers.ModelSerializer):
     """ Serializer only for RequestsApiView """
     """ checks if user is requester """
-    #requester = UserProfileSerializer(required=False)
     status = serializers.IntegerField(required=False)
     reg_date = serializers.DateTimeField(required=False)
 
@@ -82,13 +80,12 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 
 class ArticleIdSerializer(serializers.ModelSerializer):
-    """ Serializer only for RequstsIdApiView """
+    """ Serializer only for RequestsIdApiView """
     """ checks if user is translator and owns this Article, target_text and status==1"""
     target_text = serializers.CharField(required=True)
     source_text = serializers.CharField(required=False)
     requester = UserProfileSerializer(required=False)
     status = serializers.IntegerField(required=False)
-    #source_language = serializers.CharField(required=False)
     source_language = serializers.PrimaryKeyRelatedField(many=False, read_only=True, required=False)
     target_language = serializers.PrimaryKeyRelatedField(many=True, read_only=True, required=False)
     topic_id = serializers.PrimaryKeyRelatedField(many=True, read_only=True, required=False)
@@ -122,14 +119,13 @@ class ArticleIdSerializer(serializers.ModelSerializer):
         return instance
 
 class ArticleAcceptSerializer(serializers.ModelSerializer):
-    """ Serializer only for RequstsAcceptApiView """
+    """ Serializer only for RequestsAcceptApiView """
     """ checks if user is translator, deadline and status==0"""
     deadline = serializers.DateTimeField(required=True)
     target_text = serializers.CharField(required=False)
     source_text = serializers.CharField(required=False)
     requester = UserProfileSerializer(required=False)
     status = serializers.IntegerField(required=False)
-    #source_language = serializers.CharField(required=False)
     source_language = serializers.PrimaryKeyRelatedField(many=False, read_only=True, required=False)
     target_language = serializers.PrimaryKeyRelatedField(many=True, read_only=True, required=False)
     topic_id = serializers.PrimaryKeyRelatedField(many=True, read_only=True, required=False)
