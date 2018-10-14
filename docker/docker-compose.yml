@@ -1,24 +1,51 @@
 version: '3'
 
 services:
-  artweb:
+  web:
     container_name: art_web1
-    restart: always
     build: ./web
     command: uwsgi --ini /app/tr_art/tr_art/art_uwsgi_docker.ini
     ports:
       - "8000:8000"
     volumes:
-      - /home/tr_art/tr_art:/app/tr_art
+      - /home/vadim/Documents/tr_art/tr_art:/app/tr_art
     links:
-      - artdb:dbf
+      - db:dbf
+      - redis:redisf
     depends_on:
-      - artdb
+      - db
 
-  artdb:
+  celery:
+    container_name: art_celery1
+    build: ./web
+    command: celery worker -A tr_art --loglevel=debug --concurrency=4
+    volumes:
+      - /home/vadim/Documents/tr_art/tr_art:/app/tr_art
+    links:
+      - db:dbf
+      - redis:redisf
+
+    depends_on:
+      - web
+      - redis
+
+  celery-beat:
+    container_name: art_celerybeat1
+    build: ./web
+    command: celery -A tr_art beat
+    volumes:
+      - /home/vadim/Documents/tr_art/tr_art:/app/tr_art
+    links:
+      - db:dbf
+      - redis:redisf
+
+    depends_on:
+      - web
+      - redis
+
+  db:
     container_name: art_psql1
     build: ./postgres
-    restart: always
     expose:
       - "5432"
     environment:
@@ -29,15 +56,21 @@ services:
     volumes:
       - art_pgdata:/var/lib/postgresql/data
 
-  artnginx:
+  nginx:
     container_name: art_nginx1
     build: ./nginx
-    restart: always
     ports:
       - "80:80"
     volumes:
-      - /home/tr_art/tr_art:/app/tr_art
+      - /home/vadim/Documents/tr_art/tr_art:/app/tr_art
     depends_on:
-        - artweb
+      - web
+
+  redis:
+    container_name: art_redis1
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
 volumes:
   art_pgdata:

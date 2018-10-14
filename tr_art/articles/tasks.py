@@ -26,7 +26,7 @@ def notify_new_article(article_id):
 @app.task
 def notify_update_article(article_id):
     ''' Accepted or finished order notify '''
-    user = articles.models.Article.get(pk=article_id).requester.user
+    user = articles.models.Article.objects.get(pk=article_id).requester.user
     article = articles.models.Article.objects.get(pk=article_id)
     msg = ''
     if article.status == 1:

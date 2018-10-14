@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from rest_framework import serializers, exceptions
 
 from articles.models import Article, UserProfile, ArtCategory
-from articles.tasks import notify_update_article
 
 
 class UserSerializer(serializers.ModelSerializer):

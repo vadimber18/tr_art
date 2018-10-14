@@ -20,6 +20,7 @@ from articles.models import UserProfile, ArtCategory, ArtLanguage, Article
 from articles.forms import UserRegistrationForm, AddOrderForm, FreshOrdersForm, AcceptOrderForm, FinishOrderForm
 from articles.serializers import UserSerializer, ArticleSerializer, ArticleIdSerializer, ArticleAcceptSerializer, UserProfileSerializer
 from articles.art_funcs import *
+from articles.tasks import *
 
 class UserRegisterView(FormView):
     template_name = 'articles/register.html'
@@ -94,12 +95,14 @@ class OrderView(FormView): #only for translator (or not?)
             if form.is_valid():
                 deadline = form.cleaned_data['deadline']
                 order_accept(article, deadline,request.user)
+                notify_update_article.delay(article.id) #celery task
                 return HttpResponseRedirect('/acceptedorders/')
         elif article.status == 1: #we dont check article.translator due POST
             form = FinishOrderForm(request.POST)
             if form.is_valid():
                 target_text = form.cleaned_data['target_text']
                 order_finish(article, target_text)
+                notify_update_article.delay(article.id)
                 return HttpResponseRedirect('/acceptedorders/')
         return render(request, self.template_name, {'form': form, 'article': article})
 
@@ -224,7 +227,7 @@ class RequestAcceptApiView(APIView):
         if not len(article):
             raise exceptions.ValidationError('Request with this id didnt found')
         request.data.update({'translator': request.user.profile.id})
-        serializer = ArticleAcceptSerializer(instance=article[0], data=request.data)#, \
+        serializer = ArticleAcceptSerializer(instance=article[0], data=request.data)
         if serializer.is_valid(raise_exception=ValueError):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)

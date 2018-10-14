@@ -131,6 +131,21 @@ REST_KNOX = {
     'USER_SERIALIZER': 'articles.serializers.UserSerializer',
     'TOKEN_TTL': timedelta(hours=10),
 }
+
+#REDIS things
+REDIS_HOST = 'redisf'
+REDIS_PORT = '6379'
+BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+
+#mail
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'username@gmail.com'
+EMAIL_HOST_PASSWORD = 'password'
+EMAIL_PORT = 587
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
