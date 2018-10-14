@@ -24,9 +24,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 SECRET_KEY = '#b2$x1==t+a9zq6fw*m=x)^mh4(ti0q8bag2a7ux@&yg%hp$_g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -83,9 +83,9 @@ DATABASES = {
         'NAME': 'tr_art',
         'USER': 'vadim',
         'PASSWORD': '1',
-        #'HOST': '127.0.0.1',
+        'HOST': '127.0.0.1',
         #'HOST': '172.19.0.2',
-        'HOST': 'dbf',
+        #'HOST': 'dbf',
         'PORT': '5432',
     }
 }
