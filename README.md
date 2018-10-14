@@ -4,7 +4,7 @@
 Поменять абсолютные пути на свои в следующих местах:\
 `docker-compose.yml` строка 12 у меня `/home/tr_art` - папка с репой \
 `docker-compose.yml` строка 39\
-переименовать `settings_docker.py` в `settings.py`\
+переименовать `settings_docker.py` в `settings.py`, поменяь почтовые настройки, если хотим, чтобы celery таски выполнялись\
 `docker-compose up`
 
 Зайти в контейнер web (`docker exec -ti art_web1 $SHELL`), выполнить `./app/tr_art/manage.py migrate`\
@@ -36,11 +36,11 @@ http://127.0.0.1/login/
     `ArtLanguage.objects.create(name=lang)`
 
 **UPDATE**\
-Добавил 3 таска для `celery`:
+Добавил 3 таска для `celery` (работает и с докером и без):
 `notify_new_article` - отсылает оповещение всем переводчикам, когда создается новый заказ\
 `notify_update_article` - оповещает заказчика, если его заказ приняли или завершили\
 `notify_deadline_article` - каждый день (у меня каждую минуту) оповещает переводчиков о заказах, дедлайн которых скоро настанет\
-Для докера контейнеры не делал, описываю как запустить без него: \
+Чтобы работало:\
 Установить  `redis`:\
 `wget http://download.redis.io/redis-stable.tar.gz`\
 `tar xvzf redis-stable.tar.gz`\
