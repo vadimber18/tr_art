@@ -1,10 +1,7 @@
 **Установка и запуск через docker:**
 
 Убедиться, что установлены docker и docker-compose\
-Поменять абсолютные пути на свои в следующих местах:\
-`docker-compose.yml` строка 12 у меня `/home/tr_art` - папка с репой \
-`docker-compose.yml` строка 39\
-переименовать `settings_docker.py` в `settings.py`, поменяь почтовые настройки, если хотим, чтобы celery таски выполнялись\
+переименовать `settings_docker.py` в `settings.py`, поменять почтовые настройки, если хотим, чтобы celery таски выполнялись\
 `docker-compose up`
 
 Зайти в контейнер web (`docker exec -ti art_web1 $SHELL`), выполнить `./app/tr_art/manage.py migrate`\
@@ -23,8 +20,9 @@ http://127.0.0.1/login/
 `create database tr_art owner %username%;`\
 `grant all privileges on database tr_art to %username%;`\
 Убедиться, что %username% совпадает с юзером базы в `settings.py`\
-Далее восстановить из дампа или сделать migrate. Делается все также, как в случае с докером.
+Сделать `migrate` также, как в случае с докером.
 
+Чтобы можно было создать заказ, нужно, чтобы в базе были категории и языки\
 Заполнить базу категориями и языками (пример):\
 `./manage.py shell`\
 `from articles.models import ArtCategory, ArtLanguage`\
@@ -48,4 +46,4 @@ http://127.0.0.1/login/
 `make`\
 `make install`\
 Запустить `redis` в консоли: `redis-server`, запустить `celery`: `celery worker -A tr_art --loglevel=debug --concurrency=4`, запустить службу `celery beat`: `celery -A tr_art beat`\
-Поменять в `settings.py` почтовые настройки (`F7->smtp`)
+Не забыть оменять в `settings.py` почтовые настройки (`F7->smtp`)

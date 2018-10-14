@@ -8,7 +8,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - /home/vadim/Documents/tr_art/tr_art:/app/tr_art
+      - ../tr_art:/app/tr_art
     links:
       - db:dbf
       - redis:redisf
@@ -20,7 +20,7 @@ services:
     build: ./web
     command: celery worker -A tr_art --loglevel=debug --concurrency=4
     volumes:
-      - /home/vadim/Documents/tr_art/tr_art:/app/tr_art
+      - ../tr_art:/app/tr_art
     links:
       - db:dbf
       - redis:redisf
@@ -34,7 +34,7 @@ services:
     build: ./web
     command: celery -A tr_art beat
     volumes:
-      - /home/vadim/Documents/tr_art/tr_art:/app/tr_art
+      - ../tr_art:/app/tr_art
     links:
       - db:dbf
       - redis:redisf
@@ -62,7 +62,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - /home/vadim/Documents/tr_art/tr_art:/app/tr_art
+      - ../tr_art:/app/tr_art
     depends_on:
       - web
 
