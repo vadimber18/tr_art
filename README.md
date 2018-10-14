@@ -47,3 +47,22 @@ http://127.0.0.1/login/
     `ArtCategory.objects.create(name=cat)`\
 `for lang in langs:`\
     `ArtLanguage.objects.create(name=lang)`
+
+**UPDATE**\
+Добавил 3 таска для `celery`:
+`notify_new_article` - отсылает оповещение всем переводчикам, когда создается новый заказ\
+`notify_update_article` - оповещает заказчика, если его заказ приняли или завершили\
+`notify_deadline_article` - каждый день (у меня каждую минуту) оповещает переводчиков о заказах, дедлайн которых скоро настанет\
+Для докера контейнеры не делал, описываю как запустить без него: \
+Установить пакеты для питона(добавил их в requirements.txt):\
+`pip install celery`\
+`pip install redis`\
+`pip install celery[redis]` (мне не понадобилось)\
+Установить сам `redis`:\
+`wget http://download.redis.io/redis-stable.tar.gz`\
+`tar xvzf redis-stable.tar.gz`\
+`cd redis-stable`\
+`make`\
+`make install`\
+Запустить `redis` в консоли: `redis-server`, запустить `celery`: `celery worker -A tr_art --loglevel=debug --concurrency=4`, запустить службу `celery beat`: `celery -A tr_art beat`\
+Поменять в `settings.py` почтовые настройки (`F7->smtp`)
