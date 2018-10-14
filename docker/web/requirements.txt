@@ -5,3 +5,5 @@ markdown == 3.0.1
 django-filter == 2.0.0
 django-rest-knox == 3.1.5
 uWSGI == 2.0.17.1
+celery == 4.2.1
+redis == 2.10.6

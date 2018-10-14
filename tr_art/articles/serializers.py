@@ -2,7 +2,9 @@ import datetime
 
 from django.contrib.auth.models import User
 from rest_framework import serializers, exceptions
+
 from articles.models import Article, UserProfile, ArtCategory
+from articles.tasks import notify_update_article
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -116,6 +118,7 @@ class ArticleIdSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("You can only finish request with status = 1")
         instance.status = 2
         instance.save()
+        notify_update_article(instance.id).delay()
         return instance
 
 class ArticleAcceptSerializer(serializers.ModelSerializer):
@@ -154,4 +157,5 @@ class ArticleAcceptSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("You can only accept request with status = 0")
         instance.status = 1
         instance.save()
+        notify_update_article(instance.id).delay()
         return instance

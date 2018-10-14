@@ -24,9 +24,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 SECRET_KEY = '#b2$x1==t+a9zq6fw*m=x)^mh4(ti0q8bag2a7ux@&yg%hp$_g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.29.130']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -83,9 +83,9 @@ DATABASES = {
         'NAME': 'tr_art',
         'USER': 'vadim',
         'PASSWORD': '1',
-        'HOST': '127.0.0.1',
+        #'HOST': '127.0.0.1',
         #'HOST': '172.19.0.2',
-        #'HOST': 'dbf',
+        'HOST': 'dbf',
         'PORT': '5432',
     }
 }
@@ -131,6 +131,21 @@ REST_KNOX = {
     'USER_SERIALIZER': 'articles.serializers.UserSerializer',
     'TOKEN_TTL': timedelta(hours=10),
 }
+
+#REDIS things
+REDIS_HOST = 'localhost'
+REDIS_PORT = '6379'
+BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+
+#mail
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'username@gmail.com'
+EMAIL_HOST_PASSWORD = 'password'
+EMAIL_PORT = 587
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 

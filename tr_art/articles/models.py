@@ -1,5 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import signals
+
+from articles.tasks import notify_new_article
 
 
 class UserProfile(models.Model):
@@ -48,3 +51,9 @@ class Article(models.Model):
 
     def __str__(self):
         return (self.source_text[:10])
+
+def article_post_save(sender, instance, signal, created, *args, **kwargs):
+    if created == True:
+        notify_new_article.delay(instance.pk)
+
+signals.post_save.connect(article_post_save, sender=Article)
