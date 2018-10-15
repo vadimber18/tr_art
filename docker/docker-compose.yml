@@ -4,7 +4,9 @@ services:
   web:
     container_name: art_web1
     build: ./web
-    command: uwsgi --ini /app/tr_art/tr_art/art_uwsgi_docker.ini
+    command: >
+        sh -c "python manage.py collectstatic &&
+            uwsgi --ini /app/tr_art/tr_art/art_uwsgi_docker.ini"
     ports:
       - "8000:8000"
     volumes:
