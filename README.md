@@ -4,9 +4,6 @@
 переименовать `settings_docker.py` в `settings.py`, поменять почтовые настройки, если хотим, чтобы celery таски выполнялись\
 `docker-compose up`
 
-Зайти в контейнер web (`docker exec -ti art_web1 $SHELL`), выполнить `./app/tr_art/manage.py migrate`\
-Если не получается, закомментить в `urls.py` все, что связано со view (иначе мигрейт не проходит) - 1 импорт и сами урлы, убедиться, что прошла миграция для приложения articles, если не прошла, сделать `makemigrations articles` -> `migrate`\
-Потом не забыть раскомментить `urls.py`\
 http://127.0.0.1/login/
 
 **Запуск без docker:**\
@@ -20,7 +17,8 @@ http://127.0.0.1/login/
 `create database tr_art owner %username%;`\
 `grant all privileges on database tr_art to %username%;`\
 Убедиться, что %username% совпадает с юзером базы в `settings.py`\
-Сделать `migrate` также, как в случае с докером.
+`./manage.py makemigrations articles`
+`./manage.py migrate`
 
 Чтобы можно было создать заказ, нужно, чтобы в базе были категории и языки\
 Заполнить базу категориями и языками (пример):\

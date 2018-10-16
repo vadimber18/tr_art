@@ -5,7 +5,9 @@ services:
     container_name: art_web1
     build: ./web
     command: >
-        sh -c "python manage.py collectstatic &&
+        sh -c "python manage.py collectstatic --no-input &&
+            python manage.py makemigrations articles &&
+            python manage.py migrate &&
             uwsgi --ini /app/tr_art/tr_art/art_uwsgi_docker.ini"
     ports:
       - "8000:8000"
@@ -52,9 +54,9 @@ services:
       - "5432"
     environment:
       LC_ALL: C.UTF-8
-      POSTGRES_USER: vadim
-      POSTGRES_PASSWORD: 1
-      POSTGRES_DB: tr_art
+      PG_USR: vadim
+      PG_PWD: 1
+      PG_DB: tr_art
     volumes:
       - art_pgdata:/var/lib/postgresql/data
 

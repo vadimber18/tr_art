@@ -54,6 +54,11 @@ class AddOrderView(FormView):
             user = request.user
             create_article_from_form(form, user)
             return HttpResponseRedirect('/myorders/')
+        else:
+            print(form['source_text'].errors,
+            form['topic_id'].errors,
+            form['source_language'].errors,
+            form['target_language'].errors)
         return render(request, self.template_name, {'form': form})
 
 class FreshOrdersView(FormView):

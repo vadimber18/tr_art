@@ -39,20 +39,25 @@ class UserRegistrationForm(forms.Form):
 
 class AddOrderForm(forms.Form):
     source_text = forms.CharField(widget=forms.Textarea, required = True)
-    topic_id = forms.MultipleChoiceField(choices = 
-        ((c[0], c[1]) for c in ArtCategory.objects.all().values_list('id', 'name')),
+    topic_id = forms.MultipleChoiceField(choices = [], 
         widget=forms.widgets.SelectMultiple(attrs={'size':10}), required = True)
-    source_language = forms.ChoiceField(choices =
-        ((s[0], s[1]) for s in ArtLanguage.objects.all().values_list('id', 'name')),
-        required = True)
-    target_language = forms.MultipleChoiceField(choices =
-        ((t[0], t[1]) for t in ArtLanguage.objects.all().values_list('id', 'name')),
+    source_language = forms.ChoiceField(choices = [], required = True)
+    target_language = forms.MultipleChoiceField(choices = [], 
         widget=forms.widgets.SelectMultiple(attrs={'size':10}), required = True)
 
+    def __init__(self, *args, **kwargs):
+        super(AddOrderForm, self).__init__(*args, **kwargs)
+        self.fields['topic_id'].choices = [(c[0], c[1]) for c in ArtCategory.objects.all().values_list('id', 'name')]
+        self.fields['source_language'].choices = [(s[0], s[1]) for s in ArtLanguage.objects.all().values_list('id', 'name')]
+        self.fields['target_language'].choices = [(t[0], t[1]) for t in ArtLanguage.objects.all().values_list('id', 'name')]
+
 class FreshOrdersForm(forms.Form):
-    topic_id = forms.MultipleChoiceField(choices = 
-        ((c[0], c[1]) for c in ArtCategory.objects.all().values_list('id', 'name')),
+    topic_id = forms.MultipleChoiceField(choices = [],
         widget=forms.widgets.SelectMultiple(attrs={'size':10}), required = False)
+
+    def __init__(self, *args, **kwargs):
+        super(FreshOrdersForm, self).__init__(*args, **kwargs)
+        self.fields['topic_id'].choices = [(c[0], c[1]) for c in ArtCategory.objects.all().values_list('id', 'name')]
 
 class AcceptOrderForm(forms.Form):
     deadline = forms.DateTimeField(initial=datetime.datetime.now, required = True)
