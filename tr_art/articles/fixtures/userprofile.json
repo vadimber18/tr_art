@@ -1,0 +1,1 @@
+[{"model": "articles.userprofile", "pk": 1, "fields": {"user": 1, "role": "translator"}}, {"model": "articles.userprofile", "pk": 3, "fields": {"user": 3, "role": "requester"}},{"model": "articles.userprofile", "pk": 2, "fields": {"user": 2, "role": "translator"}}, {"model": "articles.userprofile", "pk": 4, "fields": {"user": 4, "role": "requester"}}]
