@@ -117,7 +117,6 @@ class ArticleIdSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("You can only finish request with status = 1")
         instance.status = 2
         instance.save()
-        notify_update_article(instance.id).delay()
         return instance
 
 class ArticleAcceptSerializer(serializers.ModelSerializer):
@@ -156,5 +155,4 @@ class ArticleAcceptSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("You can only accept request with status = 0")
         instance.status = 1
         instance.save()
-        notify_update_article(instance.id).delay()
         return instance
