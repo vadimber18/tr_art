@@ -146,6 +146,8 @@ EMAIL_HOST_USER = 'username@gmail.com'
 EMAIL_HOST_PASSWORD = 'password'
 EMAIL_PORT = 587
 
+
+FIXTURE_DIRS = ('/articles/fixtures',)
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
