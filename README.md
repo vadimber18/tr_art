@@ -4,7 +4,8 @@
 переименовать `settings_docker.py` в `settings.py`, поменять почтовые настройки, если хотим, чтобы celery таски выполнялись\
 `docker-compose up`
 
-http://127.0.0.1/login/
+`http://127.0.0.1/login/`
+`http://127.0.0.1:5555` - `flower`
 
 **Запуск без docker:**\
 `which python3`\
@@ -44,4 +45,5 @@ http://127.0.0.1/login/
 `make`\
 `make install`\
 Запустить `redis` в консоли: `redis-server`, запустить `celery`: `celery worker -A tr_art --loglevel=debug --concurrency=4`, запустить службу `celery beat`: `celery -A tr_art beat`\
-Не забыть оменять в `settings.py` почтовые настройки (`F7->smtp`)
+Не забыть оменять в `settings.py` почтовые настройки (`F7->smtp`)\
+Чтобы отслеживать выполнение тасков, можно запустить `flower`: `celery flower -A tr_art --address=127.0.0.1 --port=5555`
