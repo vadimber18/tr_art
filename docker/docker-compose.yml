@@ -47,6 +47,21 @@ services:
       - web
       - redis
 
+  celery-flower:
+    container_name: art_celeryflower1
+    build: ./web
+    command: sh -c "sleep 6 && celery flower -A tr_art --port=5555"
+    volumes:
+      - ../tr_art:/app/tr_art
+    links:
+      - db:dbf
+      - redis:redisf
+    ports:
+      - "5555:5555"
+    depends_on:
+      - web
+      - redis
+
   db:
     container_name: art_psql1
     build: ./postgres
