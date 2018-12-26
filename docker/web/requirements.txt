@@ -8,3 +8,4 @@ uWSGI == 2.0.17.1
 celery == 4.2.1
 redis == 2.10.6
 flower == 0.9.2
+django-cors-headers
